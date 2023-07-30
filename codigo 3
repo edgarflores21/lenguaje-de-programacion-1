@@ -1,0 +1,58 @@
+#include <iostream>
+#include <string>
+#include <cctype>
+
+class Empleado {
+public:
+    std::string nombre;
+    std::string apellidoPaterno;
+    std::string apellidoMaterno;
+    int anioNacimiento;
+    int mesNacimiento;
+    int diaNacimiento;
+
+    Empleado(std::string nombre, std::string apellidoPaterno, std::string apellidoMaterno, int anioNacimiento, int mesNacimiento, int diaNacimiento)
+        : nombre(nombre), apellidoPaterno(apellidoPaterno), apellidoMaterno(apellidoMaterno),
+          anioNacimiento(anioNacimiento), mesNacimiento(mesNacimiento), diaNacimiento(diaNacimiento) {}
+
+    std::string calcularRFC() const {
+        std::string rfc = apellidoPaterno.substr(0, 2) + apellidoMaterno.substr(0, 1) + nombre.substr(0, 1)
+            + std::to_string(anioNacimiento).substr(2, 2) + (mesNacimiento < 10 ? "0" : "") + std::to_string(mesNacimiento)
+            + (diaNacimiento < 10 ? "0" : "") + std::to_string(diaNacimiento);
+
+        for (char& c : rfc) {
+            c = std::toupper(c);
+        }
+
+        return rfc;
+    }
+};
+
+int main() {
+    std::string nombre, apellidoPaterno, apellidoMaterno;
+    int anioNacimiento, mesNacimiento, diaNacimiento;
+
+    std::cout << "Ingrese el nombre del empleado: ";
+    std::getline(std::cin, nombre);
+
+    std::cout << "Ingrese el apellido paterno del empleado: ";
+    std::getline(std::cin, apellidoPaterno);
+
+    std::cout << "Ingrese el apellido materno del empleado: ";
+    std::getline(std::cin, apellidoMaterno);
+
+    std::cout << "Ingrese el año de nacimiento del empleado: ";
+    std::cin >> anioNacimiento;
+
+    std::cout << "Ingrese el mes de nacimiento del empleado: ";
+    std::cin >> mesNacimiento;
+
+    std::cout << "Ingrese el día de nacimiento del empleado: ";
+    std::cin >> diaNacimiento;
+
+    Empleado empleado(nombre, apellidoPaterno, apellidoMaterno, anioNacimiento, mesNacimiento, diaNacimiento);
+
+    std::cout << "RFC del empleado: " << empleado.calcularRFC() << std::endl;
+
+    return 0;
+}
